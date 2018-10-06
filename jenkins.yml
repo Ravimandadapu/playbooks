@@ -1,0 +1,18 @@
+---
+- hosts: 192.168.125.11
+  gather_facts: true
+  tasks:
+    - name: Installing Java
+      yum: name=java-1.8.0-openjdk.x86_64 state=present
+    - name: Installing wget
+      yum: name=wget state=present
+    - name: Creating repository
+      get_url:
+        url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
+        dest: /etc/yum.repos.d/jenkins.repo
+    - name: Adding key
+      rpm_key:
+        state: present
+        key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+    - name: Installing Jenkins
+      yum: name=jenkins state=present
